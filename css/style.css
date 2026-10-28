@@ -706,6 +706,40 @@ body.night-theme .text-muted,
 body.night-theme .text-secondary { color: #c4cfda !important; }
 body.night-theme .bg-light { color: #e9edf2 !important; background-color: #1d2a36 !important; }
 body.night-theme .card-footer { background-color: #243341 !important; }
+body.night-theme .navbar,
+body.night-theme footer { background-color: #101820 !important; }
+body.night-theme h1,
+body.night-theme h2,
+body.night-theme h3,
+body.night-theme h4,
+body.night-theme h5,
+body.night-theme h6,
+body.night-theme label,
+body.night-theme .form-label,
+body.night-theme .card-title,
+body.night-theme .card-text,
+body.night-theme .form-check-label { color: #e9edf2; }
+body.night-theme a:not(.btn) { color: #8fc7ff; }
+body.night-theme .form-control,
+body.night-theme .form-select,
+body.night-theme textarea,
+body.night-theme input {
+    border-color: #526779;
+    background-color: #1b2935;
+    color: #e9edf2;
+}
+body.night-theme .form-control::placeholder,
+body.night-theme textarea::placeholder { color: #aab8c5; }
+body.night-theme .btn-outline-dark {
+    border-color: #c4cfda;
+    color: #e9edf2;
+}
+body.night-theme .btn-outline-secondary {
+    border-color: #9aabba;
+    color: #e9edf2;
+}
+body.night-theme .subscription-modal-content { background-color: #243341 !important; }
+body.night-theme .subscription-modal-close { color: #e9edf2; }
 #soundEffectBtn { white-space: nowrap; }
 @keyframes heritage-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 575.98px) {

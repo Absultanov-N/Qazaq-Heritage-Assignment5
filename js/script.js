@@ -263,6 +263,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const interfaceSoundsToggleBtn = document.getElementById('interfaceSoundsToggleBtn');
+    let interfaceSoundsEnabled = false;
+    let interfaceAudioContext = null;
+    let interfaceSoundOscillator = null;
+    if (interfaceSoundsToggleBtn) {
+        interfaceSoundsToggleBtn.addEventListener('click', () => {
+            interfaceSoundsEnabled = !interfaceSoundsEnabled;
+            interfaceSoundsToggleBtn.textContent = `Interface Sounds ${interfaceSoundsEnabled ? 'ON' : 'OFF'}`;
+            interfaceSoundsToggleBtn.setAttribute('aria-pressed', String(interfaceSoundsEnabled));
+        });
+    }
+
+    document.addEventListener('click', (event) => {
+        if (!interfaceSoundsEnabled) return;
+        const interactiveElement = event.target.closest('button, a, select, summary, input[type="checkbox"], input[type="radio"]');
+        if (!interactiveElement || interactiveElement.id === 'interfaceSoundsToggleBtn' ||
+            interactiveElement.id === 'soundEffectBtn' || interactiveElement.closest('.heritage-audio-player')) return;
+
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        if (!interfaceAudioContext) interfaceAudioContext = new AudioContextClass();
+        if (interfaceAudioContext.state === 'suspended') interfaceAudioContext.resume();
+        if (interfaceSoundOscillator) interfaceSoundOscillator.stop();
+        const oscillator = interfaceAudioContext.createOscillator();
+        const gain = interfaceAudioContext.createGain();
+        interfaceSoundOscillator = oscillator;
+        oscillator.frequency.value = 520;
+        oscillator.type = 'sine';
+        gain.gain.setValueAtTime(0.04, interfaceAudioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, interfaceAudioContext.currentTime + 0.06);
+        oscillator.connect(gain);
+        gain.connect(interfaceAudioContext.destination);
+        oscillator.start();
+        oscillator.stop(interfaceAudioContext.currentTime + 0.06);
+        oscillator.addEventListener('ended', () => {
+            if (interfaceSoundOscillator === oscillator) interfaceSoundOscillator = null;
+        });
+    });
+
     // Assignment 5: shared audio controls. Only one supplied track may play at a time.
     const heritageAudio = document.getElementById('heritageAudio');
     const heritagePlayBtn = document.getElementById('heritagePlayBtn');
